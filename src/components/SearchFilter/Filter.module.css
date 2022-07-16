@@ -1,7 +1,15 @@
-.label {
+.contactForm {
+  justify-items: start;
+  width: 350px;
+  padding: 10px;
+}
+.inputLabel {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  font-family: roboto;
-  font-weight: 700;
-  font-size: 20px;
+  padding: 10px;
+}
+.input {
+  width: 300px;
+  margin-top: 10px;
 }

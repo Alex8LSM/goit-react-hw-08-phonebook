@@ -1,23 +1,19 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import {
-  useAddContactMutation,
-  useGetContactsQuery,
-} from '../../api/contactsApi';
+import { addContacts } from '../../redux/phonebook/phonebookOperations';
+import { getContacts } from '../../redux/phonebook/phonebookSelectors';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from './ContactForm.module.css';
 
 function ContactForm() {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [addContact, { isLoading }] = useAddContactMutation();
-  const { data: contacts } = useGetContactsQuery(undefined, {
-    skip: name === '',
-  });
-
+  const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
   const nameId = nanoid();
-  const phoneId = nanoid();
+  const numberId = nanoid();
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -26,8 +22,8 @@ function ContactForm() {
       case 'name':
         setName(value);
         break;
-      case 'phone':
-        setPhone(value);
+      case 'number':
+        setNumber(value);
         break;
       default:
         return;
@@ -43,12 +39,17 @@ function ContactForm() {
     event.preventDefault();
 
     if (checkContact('name', name)) toast.error(`${name} is already added.`);
-    else if (checkContact('phone', phone))
-      toast.error(`${phone} is already added.`);
+    else if (checkContact('number', number))
+      toast.error(`${number} is already added.`);
     else {
-      await addContact({ name, phone });
+      dispatch(
+        addContacts({
+          name: name,
+          number: number,
+        })
+      );
       setName('');
-      setPhone('');
+      setNumber('');
     }
   };
 
@@ -81,21 +82,21 @@ function ContactForm() {
           />
         </label>
         <label className={s.label}>
-          <span className={s.labelTitle}>phone</span>
+          <span className={s.labelTitle}>Number</span>
           <input
             type="tel"
-            name="phone"
+            name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
+            title="number number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             className={s.input}
-            value={phone}
+            value={number}
             onChange={handleChange}
-            id={phoneId}
+            id={numberId}
           />
         </label>
 
-        <button className={s.button} disabled={isLoading} type="submit">
+        <button className={s.button} type="submit">
           Add contact
         </button>
       </form>

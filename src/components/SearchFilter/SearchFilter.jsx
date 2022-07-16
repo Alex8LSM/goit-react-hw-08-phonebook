@@ -1,16 +1,28 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { getFilter } from '../../redux/selectors';
-import { changeFilter } from '../../redux/actions';
+import { filterContact } from '../../redux/phonebook/phonebookActions';
 import s from './Filter.module.css';
 
 const Filter = () => {
-  const value = useSelector(getFilter);
   const dispatch = useDispatch();
-  const onChange = e => dispatch(changeFilter(e.target.value));
+  const filter = useSelector(state => state.filter);
+
+  const findContact = name => {
+    dispatch(filterContact(name.toLowerCase()));
+  };
+
   return (
-    <label className={s.label}>
-      Find contact <input type="text" value={value} onChange={onChange} />
-    </label>
+    <div className={s.contactForm}>
+      <label className={s.inputLabel}>
+        Find contact by name
+        <input
+          className={s.input}
+          type="text"
+          value={filter}
+          onChange={e => findContact(e.target.value)}
+          required
+        />
+      </label>
+    </div>
   );
 };
 

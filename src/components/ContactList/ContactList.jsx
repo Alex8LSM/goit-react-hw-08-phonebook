@@ -1,27 +1,22 @@
 import ContactItem from '../ContactItem/ContactItem';
-import { useSelector } from 'react-redux';
-import { useDeleteContactMutation } from 'api/contactsApi';
-import { getVisibleContacts, getFilter } from '../../redux/selectors';
-import { useGetContactsQuery } from '../../api/contactsApi';
-import Loader from '../Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
+import {
+  removeContact,
+  fetchContacts,
+} from '../../redux/phonebook/phonebookOperations';
+import { getContactsByFilter } from '../../redux/phonebook/phonebookSelectors';
 import s from './ContactList.module.css';
-
 const ContactList = () => {
-  const filter = useSelector(getFilter);
-  const { contacts, isFetching, isError, error } = useGetContactsQuery(
-    undefined,
-    {
-      selectFromResult: ({ data, isFetching, isError, error }) => ({
-        contacts: data && getVisibleContacts(data, filter),
-        isFetching,
-        isError,
-        error,
-      }),
-    }
-  );
-
-  const [deleteContact] = useDeleteContactMutation();
-  const onDeleteContact = id => deleteContact(id);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+  const contacts = useSelector(getContactsByFilter);
+  const onDeleteContact = id => {
+    dispatch(removeContact(id));
+  };
   let contactList = null;
 
   if (contacts) {
@@ -36,13 +31,7 @@ const ContactList = () => {
         />
       ));
   }
-  return (
-    <div>
-      {isError && <p>{error.data}</p>}
-      {contactList}
-      {isFetching && <Loader />}
-    </div>
-  );
+  return <div>{contactList}</div>;
 };
 
 export default ContactList;

@@ -1,0 +1,58 @@
+.form {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 200px;
+
+  text-align: center;
+  background-color: #f8f8ff;
+  border: 1px solid #3f51b5;
+  border-radius: 5px;
+}
+
+.formTitle {
+  margin-bottom: 20px;
+  color: #3f51b5;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.formLabel {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid rgb(63, 81, 181);
+  border-radius: 10px;
+  outline: none;
+}
+
+.ariaLabel {
+  padding: 0px 5px;
+  position: absolute;
+  left: 44%;
+  font-size: inherit;
+  color: #3f51b5;
+  background-color: inherit;
+}
+.formInput:focus ~ .ariaLabel,
+.formInput:not(:placeholder-shown) ~ .ariaLabel {
+  transform: translateY(-65%);
+  top: 0;
+  padding: 0px 5px;
+  font-size: 12px;
+  background-color: white;
+}
+
+.formIcons {
+  color: rgb(63, 81, 181);
+  margin-right: 5px;
+}

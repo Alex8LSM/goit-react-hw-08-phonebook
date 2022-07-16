@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import s from './ContactItem.module.css';
 const ContactItem = ({ contact, onDeleteContact }) => {
-  const { id, name, phone } = contact;
+  const { id, name, number } = contact;
   return (
     <li className={s.item}>
       <p className={s.contactName}>{name}</p>
-      <p className={s.contactNumber}>{phone}</p>
+      <p className={s.contactNumber}>{number}</p>
       <button
         className={s.button}
         type="button"
