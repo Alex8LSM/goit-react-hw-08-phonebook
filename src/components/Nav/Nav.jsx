@@ -19,12 +19,16 @@ export default function Nav() {
         <AppBar position="fixed">
           <Toolbar>
             <nav className={s.nav}>
-              <NavLink
-                to="/"
-                className={({ isActive }) => (isActive ? s.activeLink : s.link)}
-              >
-                Home
-              </NavLink>
+              {!isLoggedIn && (
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? s.activeLink : s.link
+                  }
+                >
+                  Home
+                </NavLink>
+              )}
 
               {isLoggedIn && (
                 <NavLink
