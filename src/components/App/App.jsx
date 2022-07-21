@@ -67,6 +67,16 @@ export default function App() {
               path="/contacts"
               element={isLoggedIn ? <ContactsPage /> : <Navigate to="/login" />}
             />
+            <Route
+              path="*"
+              element={
+                !isLoggedIn ? (
+                  <Navigate to="/login" />
+                  ) : (
+                  <Navigate to="/contacts" />
+                )
+              }
+            />
           </Routes>
         </Suspense>
       ) : (
